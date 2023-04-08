@@ -1,6 +1,6 @@
 # Pytorch-Lightning-Template
 
-[**English Version**](../README.md)
+[**English Version**](README.md)
 
 ## Introduction
 

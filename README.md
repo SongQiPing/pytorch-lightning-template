@@ -12,24 +12,35 @@ Pytorch-Lightning 是一个很便利的库，它可以看作是Pytorch的抽象�
 
 欢迎大家尝试这一套代码风格，如果用习惯的话还是相当方便复用的，也不容易半道退坑。更加详细的解释和对Pytorch-Lightning的完全攻略可以在[本篇](https://zhuanlan.zhihu.com/p/353985363)知乎博客上找到。
 
-## File Structure
+## 文件结构
 
 ```
 root-
-	|-data
+	|-con
+	|-datasets
 		|-__init__.py
 		|-data_interface.py
 		|-xxxdataset1.py
 		|-xxxdataset2.py
 		|-...
-	|-model
+	|-models
 		|-__init__.py
 		|-model_interface.py
 		|-xxxmodel1.py
 		|-xxxmodel2.py
 		|-...
-	|-main.py
-	|-utils.py
+	|-log 			# 记录的log文件，包括权重，训练数据等
+	|-moudles 		# 其他的一些可以复用的深度学习模块 
+		|-layers	# 常用的神经网络的层
+	|-main.py		# 主程序，包含训练、验证、测试和预测
+	|-utils   		# 各种工具代码,可以是日志、评价指标计算等等
+		|-metrics	# 评价指标的计算
+		|-visualize # 可视化工具 
+	|-scripts 		# 各种训练测试脚本 
+	|-train.py		# 训练代码 
+	|-eval.py 		# 测试代码 
+	|-re
+	
 ```
 
 ## Installation
@@ -64,3 +75,11 @@ root-
 数据集data文件夹也是一样。
 
 虽然对命名提出了较紧的要求，但实际上并不会影响使用，反而让你的代码结构更加清晰。希望使用时候可以注意这点，以免无法parse。
+
+
+
+# TO_DO
+
+- [ ] 对训练文件夹的结构进行更改，使其更合理 
+- [ ] 寻找一种更好的config系统，能够支持父亲节点，并且能够在声明的时候能够记录参数文件
+- []

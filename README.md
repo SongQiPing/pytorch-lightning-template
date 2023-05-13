@@ -16,7 +16,7 @@ Pytorch-Lightning 是一个很便利的库，它可以看作是Pytorch的抽象�
 
 ```
 root-
-	|-confi
+	|-config
 	|-datasets
 		|-__init__.py
 		|-data_interface.py

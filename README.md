@@ -16,7 +16,10 @@ Pytorch-Lightning 是一个很便利的库，它可以看作是Pytorch的抽象�
 
 ```
 root-
-	|-config
+	|-config	
+		|- defaults.py  - 这里是默认的配置文件
+	├──  configs  
+		└── train_mnist_softmax.yml  - here's the specific config file for specific model or dataset.
 	|-datasets
 		|-__init__.py
 		|-data_interface.py

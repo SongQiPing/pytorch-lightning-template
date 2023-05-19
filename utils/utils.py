@@ -14,6 +14,8 @@
 
 import os
 from pathlib2 import Path
+from shutil import copyfile, copytree, ignore_patterns
+
 
 def load_model_path(root=None, version=None, v_num=None, best=False):
     """ When best = True, return the best model's path in a directory 
@@ -27,11 +29,12 @@ def load_model_path(root=None, version=None, v_num=None, best=False):
         v_num: The version's number that you are going to load.
         best: Whether return the best model.
     """
+
     def sort_by_epoch(path):
         name = path.stem
-        epoch=int(name.split('-')[1].split('=')[1])
+        epoch = int(name.split('-')[1].split('=')[1])
         return epoch
-    
+
     def generate_root():
         if root is not None:
             return root
@@ -40,19 +43,55 @@ def load_model_path(root=None, version=None, v_num=None, best=False):
         else:
             return str(Path('lightning_logs', f'version_{v_num}', 'checkpoints'))
 
-    if root==version==v_num==None:
+    if root == version == v_num == None:
         return None
 
     root = generate_root()
     if Path(root).is_file():
         return root
     if best:
-        files=[i for i in list(Path(root).iterdir()) if i.stem.startswith('best')]
+        files = [i for i in list(Path(root).iterdir()) if i.stem.startswith('best')]
         files.sort(key=sort_by_epoch, reverse=True)
         res = str(files[0])
     else:
         res = str(Path(root) / 'last.ckpt')
     return res
 
+
 def load_model_path_by_args(args):
     return load_model_path(root=args.load_dir, version=args.load_ver, v_num=args.load_v_num)
+
+
+def copy_files(src_dir, dst_dir, *ignores):
+    copytree(src_dir, dst_dir, ignore=ignore_patterns(*ignores))
+
+
+def make_source_code_snapshot(log_dir):
+    # 复制源代码到日志目录
+    copy_files(
+        ".",
+        f"{log_dir}/source",
+        "saved",
+        "__pycache__",
+        "dataset",
+        "logs",
+        "scans",
+        ".vscode",
+        "*.so",
+        "*.a",
+        ".ipynb_checkpoints",
+        "build",
+        "bin",
+        "*.ply",
+        "eigen",
+        "pybind11",
+        "*.npy",
+        "*.pth",
+        ".git",
+        "debug",
+        "docs",
+        "data",
+        ".idea",
+        "test",
+        "文档"
+    )

@@ -1,7 +1,6 @@
-DATA_CONFIG:
+__BASE_CONFIG__: configs/base.yaml
 
-MODEL:
-    NAME:
+data:
+    dataset_name : mnist_rec_data
 
-TRAIN:
 

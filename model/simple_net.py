@@ -1,33 +1,23 @@
 import torch
 import numpy as np
 from torch import nn
-from . import common
+import torch.nn.functional as F
+
 
 class SimpleNet(nn.Module):
-    def __init__(self, in_channel=3, out_channel=10, hid=128, layer_num=5):
-        super().__init__()
-        body = [common.conv3x3(in_channel, hid, 3),
-                nn.ReLU()]
-        for _ in range(layer_num-1):
-            body.append(common.conv3x3(hid, hid, 3))
-            body.append(nn.ReLU())
-
-        self.body = nn.Sequential(*body)
-        self.avgpool = nn.AdaptiveAvgPool2d((6, 6))
-        self.classifier = nn.Sequential(
-            nn.Dropout(),
-            nn.Linear(hid * 6 * 6, 2048),
-            nn.ReLU(inplace=True),
-            nn.Dropout(),
-            nn.Linear(2048, 2048),
-            nn.ReLU(inplace=True),
-            nn.Linear(2048, out_channel),
-            nn.Sigmoid()
-        )
+    def __init__(self):
+        super(SimpleNet, self).__init__()
+        self.conv1 = nn.Conv2d(1, 10, kernel_size=5)
+        self.conv2 = nn.Conv2d(10, 20, kernel_size=5)
+        self.conv2_drop = nn.Dropout2d()
+        self.fc1 = nn.Linear(320, 50)
+        self.fc2 = nn.Linear(50, 10)
 
     def forward(self, x):
-        x = self.body(x)
-        x = self.avgpool(x)
-        x = torch.flatten(x, 1)
-        x = self.classifier(x)
+        x = F.relu(F.max_pool2d(self.conv1(x), 2))
+        x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), 2))
+        x = x.view(-1, 320)
+        x = F.relu(self.fc1(x))
+        x = F.dropout(x, training=self.training)
+        x = self.fc2(x)
         return x

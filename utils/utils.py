@@ -71,6 +71,7 @@ def make_source_code_snapshot(log_dir):
     copy_files(
         ".",
         f"{log_dir}/source",
+        "Assets",
         "saved",
         "__pycache__",
         "dataset",

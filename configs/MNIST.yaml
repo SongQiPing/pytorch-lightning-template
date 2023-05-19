@@ -2,5 +2,9 @@ __BASE_CONFIG__: configs/base.yaml
 
 data:
     dataset_name : mnist_rec_data
+experiment_name: classification_experiment
+model:
+    model_name: simple_net
 
-
+optimizer:                                                  # optimization options
+    lr: 1.e-2
